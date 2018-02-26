@@ -7,9 +7,15 @@ Angular_Interface.init = function(){
 	
 	this.app = angular.module("interfaceApp",[]);
 	this.app.controller("interfaceController", function($scope, $http){
+		$scope.comments = [];
 		
 		$http.get(jsonPlaceHolderURL).then(function(response){
-			$scope.data = response.data;
+			for(comment in response.data){
+				if(!$scope.comments[response.data[comment].postId]){
+					$scope.comments[response.data[comment].postId] = [];
+				}
+				$scope.comments[response.data[comment].postId].push(response.data[comment]);
+			}
 		})
 		
 	});
