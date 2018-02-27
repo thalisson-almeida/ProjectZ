@@ -1,13 +1,57 @@
 <HTML>
 	<HEAD>
+		<LINK REL="stylesheet" HREF="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<SCRIPT SRC="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></SCRIPT>
+		<SCRIPT SRC="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></SCRIPT>
 		<SCRIPT SRC="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></SCRIPT>
 		<SCRIPT SRC="./interface.js"></SCRIPT>
 	</HEAD>
 	<BODY>
-		<DIV ng-app="interfaceApp" ng-controller="interfaceController">
-			<TABLE>
+		<DIV class="row">
+			<DIV class="col-sm-12">
+				<H1>Interface</H1>
+			</div>
+		</div>
+		<DIV class="row">
+			<DIV class="col-sm-12">
+				<DIV ng-app="interfaceApp" ng-controller="interfaceController">
+					<DIV class="row">
+						<DIV class="col-sm-9">
+							<div class="form-group">
+								<label for="form_filter">Filtro:</label>
+								<input type="text" class="form-control" id="form_filter" ng-model="form_filter">
+							</div>
+						</div>						
+						<DIV class="col-sm-3">
+							<div class="form-group">
+								<label for="form_recordsPerPage">Select list:</label>
+								<select class="form-control" id="form_recordsPerPage" ng_model="form_recordsPerPage" ng-change="changeRecordPerPage()">
+									<option value="5" selected>5</option>
+									<option value="10">10</option>
+									<option value="15">15</option>
+									<option value="20">20</option>
+								</select>
+							</div>
+						</div>						
+					</div>
+					<DIV ng-repeat="comment in filterData = (comments | filter: form_filter) | limitTo:numPerPage:(numPerPage*(currentPage-1))" class="row panel panel-default">
+						<DIV class="col-sm-3 .panel-heading">
+							<DIV>{{comment.name}}</DIV>
+							<DIV>{{comment.email}}</DIV>
+						</DIV >
+						<DIV class="col-sm-9 panel panel-body">
+							<DIV>{{comment.body}}</DIV>
+						</DIV >
+					</DIV>
 				
-			</TABLE>
+					<DIV class="row text-center">
+						<ul class="pagination" ng-repeat="pageNumber in numberPages track by $index">
+							<li><a ng-click="setPage($index+1)" href="#">{{$index+1}}</a></li>
+						</ul>
+					</DIV>	
+				</DIV>
+			
+			</DIV>
 		</DIV>
 	</BODY>
 </HTML>
